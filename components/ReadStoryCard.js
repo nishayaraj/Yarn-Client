@@ -2,9 +2,18 @@
 /* eslint-disable @next/next/no-img-element */
 import React from 'react';
 import PropTypes from 'prop-types';
-import LikeComponent from './LikeComponent';
 
 function ReadStoryCard({ storyObj }) {
+  const renderStoryJournalsList = (journals) => {
+    let storyJournalsList = '';
+    if (journals && journals.length > 0) {
+      journals.forEach((element) => {
+        storyJournalsList += `${element.journalType}, `;
+      });
+    }
+    return storyJournalsList;
+  };
+
   return (
     <div
       style={{
@@ -45,14 +54,13 @@ function ReadStoryCard({ storyObj }) {
             style={{ marginTop: '6px' }}
           >
             <span>Genre : </span>
-            <b>{storyObj?.journals && storyObj.journals.join(', ')}</b>
+            <b>{renderStoryJournalsList(storyObj.journals)}</b>
           </div>
           <div
             style={{ marginTop: '6px', marginBottom: '6px' }}
           >
             {storyObj.date}
           </div>
-          <LikeComponent disableLikeOption counter={storyObj.likes} />
         </div>
       </div>
       <div

@@ -1,11 +1,21 @@
+/* eslint-disable react/forbid-prop-types */
 /* eslint-disable @next/next/no-img-element */
 import React from 'react';
 import PropTypes from 'prop-types';
-import LikeComponent from './LikeComponent';
 
 function LoggedoutAllStoryCard({
   storyObj,
 }) {
+  const renderStoryJournalsList = (journals) => {
+    let storyJournalsList = '';
+    if (journals && journals.length > 0) {
+      journals.forEach((element) => {
+        storyJournalsList += `${element.journalType}, `;
+      });
+    }
+    return storyJournalsList;
+  };
+
   return (
     <div
       style={{
@@ -27,13 +37,6 @@ function LoggedoutAllStoryCard({
             borderRadius: '10px',
           }}
         />
-        <div
-          style={{
-            marginTop: '10px',
-          }}
-        >
-          <LikeComponent disableLikeOption counter={storyObj.likes} />
-        </div>
       </div>
       <div
         style={{ fontSize: '16px', textAlign: 'left', paddingTop: '16px' }}
@@ -53,7 +56,7 @@ function LoggedoutAllStoryCard({
           style={{ marginTop: '6px', color: '#717171' }}
         >
           <span>Genre : </span>
-          <b>{storyObj.journalType}</b>
+          <b>{renderStoryJournalsList(storyObj.journals)}</b>
         </div>
         <div
           style={{
@@ -74,7 +77,7 @@ LoggedoutAllStoryCard.propTypes = {
     title: PropTypes.string,
     story: PropTypes.string,
     imageUrl: PropTypes.string,
-    journalType: PropTypes.string,
+    journals: PropTypes.array,
     likes: PropTypes.number,
   }).isRequired,
 };

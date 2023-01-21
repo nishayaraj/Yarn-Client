@@ -1,26 +1,36 @@
+/* eslint-disable react/forbid-prop-types */
 /* eslint-disable @next/next/no-img-element */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useRouter } from 'next/router';
-// import { deleteStory } from '../api/storiesData';
-import LikeComponent from './LikeComponent';
+import { deleteStory } from '../api';
 
 function AllStoryCard({
-  storyObj, userId, isUserLikedStory, updateStoryLikes,
+  storyObj, userId, onDelete,
 }) {
   const router = useRouter();
 
   const deleteThisStory = () => {
     if (window.confirm(`Delete ${storyObj.title}?`)) {
-      // deleteStory(storyObj.id).then(() => onDelete());
+      deleteStory(storyObj.id).then(() => onDelete());
     }
   };
 
-  const editStory = () => router.push(`/my-stories/edit/${storyObj.firebaseKey}`);
+  const editStory = () => router.push(`/my-stories/edit/${storyObj.id}`);
 
-  const viewStory = () => router.push(`/my-stories/${storyObj.firebaseKey}`);
+  const viewStory = () => router.push(`/my-stories/${storyObj.id}`);
 
   const shortStory = storyObj.story.substring(0, 150);
+
+  const renderStoryJournalsList = (journals) => {
+    let storyJournalsList = '';
+    if (journals && journals.length > 0) {
+      journals.forEach((element) => {
+        storyJournalsList += `${element.journalType}, `;
+      });
+    }
+    return storyJournalsList;
+  };
 
   return (
     <div
@@ -43,17 +53,6 @@ function AllStoryCard({
             borderRadius: '10px',
           }}
         />
-        <div
-          style={{
-            marginTop: '10px',
-          }}
-        >
-          <LikeComponent
-            userLiked={isUserLikedStory}
-            counter={storyObj.likes || 0}
-            updateLikeCounter={(like) => updateStoryLikes(storyObj, like)}
-          />
-        </div>
       </div>
       <div
         style={{ fontSize: '16px', textAlign: 'left', paddingTop: '16px' }}
@@ -73,7 +72,7 @@ function AllStoryCard({
           style={{ marginTop: '6px', color: '#717171' }}
         >
           <span>Genre : </span>
-          <b>{storyObj.journalType}</b>
+          <b>{renderStoryJournalsList(storyObj.journals)}</b>
         </div>
         <div
           style={{ marginTop: '6px' }}
@@ -115,7 +114,7 @@ function AllStoryCard({
             Read
           </button>
           {
-            userId === storyObj.uid && (
+            userId === storyObj.userId && (
               <button
                 type="button"
                 style={{
@@ -144,7 +143,7 @@ function AllStoryCard({
               </button>
             )
 }
-          {userId === storyObj.uid && (
+          {userId === storyObj.userId && (
           <button
             type="button"
             style={{
@@ -179,27 +178,19 @@ function AllStoryCard({
 
 AllStoryCard.propTypes = {
   storyObj: PropTypes.shape({
+    id: PropTypes.number,
     authorName: PropTypes.string,
     title: PropTypes.string,
     story: PropTypes.string,
     public: PropTypes.bool,
     date: PropTypes.string,
     imageUrl: PropTypes.string,
-    journalType: PropTypes.string,
-    journalId: PropTypes.string,
+    journals: PropTypes.array,
     isPublished: PropTypes.bool,
-    firebaseKey: PropTypes.string,
-    uid: PropTypes.string,
-    likes: PropTypes.number,
+    userId: PropTypes.number,
   }).isRequired,
-  userId: PropTypes.string.isRequired,
-  isUserLikedStory: PropTypes.bool,
-  // onDelete: PropTypes.func.isRequired,
-  updateStoryLikes: PropTypes.func.isRequired,
-};
-
-AllStoryCard.defaultProps = {
-  isUserLikedStory: false,
+  userId: PropTypes.number.isRequired,
+  onDelete: PropTypes.func.isRequired,
 };
 
 export default AllStoryCard;
