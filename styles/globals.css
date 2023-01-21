@@ -1,11 +1,17 @@
 @import 'bootstrap/dist/css/bootstrap.css';
 
+@font-face{
+  font-family: Canva Sans,Noto Sans Variable,Noto Sans,-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif;
+  src: url('canva.woff2'), url('canva-circular.woff2') format('woff');}
+
 html,
 body {
   padding: 0;
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif Canva Sans,Noto Sans Variable,Noto Sans,Arial;
+    background:#F8F8F8;
+    background-size: cover;
 }
 
 a {
@@ -17,6 +23,145 @@ a {
   box-sizing: border-box;
 }
 
-body {
-  background-color: #88effd;
+.page-container {
+  margin-top: 68px;
+}
+
+.title-obj {
+font-weight: bold;
+}
+
+.card {
+  margin: 10px;
+}
+
+.addButton {
+  background: white;
+  color: #717171;
+  display: flex;
+  flex-direction: row;
+  align-content: center;
+  cursor: pointer;
+  font-weight: bold;
+  border: none;
+}
+
+.addButton:hover {
+  color: black;
+}
+
+.logoutNavItem-loginbutton button {
+  width: 100%;
+}
+.logoutNavItem-search {
+  font-size: 14px;
+  border: 0.5px solid black;
+  background: white;
+  border-radius: 100px;
+  padding: 0px 15px 0px 10px;
+}
+
+@media (min-width: 992px) {
+  .logoutNavItem-loginbutton {
+    margin-left: 30px;
+  }
+}
+
+@media (max-width: 992px) {
+  .logoutNavItem-loginbutton {
+    margin: 20px 0px;
+  }
+
+  .logoutNavItem-search {
+    margin: 20px 0px;
+  }
+}
+
+.loggedout-nav-search-input {
+  border: none;
+  box-shadow: none;
+}
+
+.loggedout-nav-search-input:focus {
+  border: none !important;
+  box-shadow: none !important;
+}
+
+.loggedout-nav-button {
+  display: flex;
+  align-items: center;
+  background-color: #fff;
+  border: 0.5px solid black;
+  color: black;
+  border-radius: 100px;
+  justify-content: center;
+  font-size: 14px;
+  margin: 0px 5px;
+}
+
+.loggedout-nav-button:hover {
+  font-weight: bold;
+  color: black;
+}
+
+.loggedout-nav-button-icon {
+  border-radius: 100px;
+  object-fit: fill;
+  border: 3px solid white;
+  height: 32px;
+  margin-right: 5px;
+}
+
+.loggedin-nav-button {
+  display: flex;
+  align-items: center;
+  background-color: #fff;
+  border: 1px solid red;
+  color: red;
+  border-radius: 100px;
+  justify-content: center;
+  font-size: 14px;
+  margin: 0px 5px;
+}
+
+.loggedin-nav-button:hover {
+  font-weight: bold;
+}
+
+.loggedin-nav-button-user-avatar {
+  border-radius: 100px;
+  object-fit: fill;
+  border: 3px solid white;
+  height: 32px;
+  margin-right: 5px;
+}
+
+.loggedin-navbar-button {
+  background-color: #fff;
+  color: black;
+  border: 0.5px solid black;
+  border-radius: 100px;
+  font-size: 14px;
+  margin: 0px 5px;
+  padding-left: 16px !important;
+  padding-right: 16px !important;
+}
+
+.loggedin-navbar-button:hover {
+  font-weight: bold;
+  color: black;
+}
+
+.form-check-input {
+  background-color: #f38449 !important;
+  border: 1px solid #f38449 !important;
+}
+
+.nav-app-logo {
+  height: 52px;
+  border: 1px solid #ff924b;
+  width: 51px;
+  border-radius: 100px;
+  padding: 2px;
+  margin-right: 10px;
 }
