@@ -2,7 +2,6 @@
 import { getSingleJournal } from './myJournalData';
 import { getMyStoriesByJournal } from './storyData';
 
-// done
 const getJournalDetailsWithStory = (journalId) => new Promise((resolve, reject) => {
   getSingleJournal(journalId)
     .then((journalData) => {

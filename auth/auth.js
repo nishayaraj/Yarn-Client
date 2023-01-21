@@ -30,6 +30,10 @@ const registerUser = (userInfo) => new Promise((resolve, reject) => {
     .catch(reject);
 });
 
+const anonymouslySignIn = () => {
+  firebase.auth().signInAnonymously();
+};
+
 const signIn = () => {
   const provider = new firebase.auth.GoogleAuthProvider();
   firebase.auth().signInWithPopup(provider);
@@ -40,8 +44,9 @@ const signOut = () => {
 };
 
 export {
-  signIn, //
+  signIn,
   signOut,
   checkUser,
   registerUser,
+  anonymouslySignIn,
 };

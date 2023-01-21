@@ -1,14 +1,15 @@
 import PropTypes from 'prop-types';
 import { useAuth } from '../auth/context/authContext';
 import Loading from '../components/Loading';
-import Signin from '../components/Signin';
 import NavBar from '../components/NavBar';
 import RegisterForm from '../components/RegisterForm';
+import LoggedoutAllStories from '../components/LoggedoutAllStories';
 
 const ViewDirectorBasedOnUserAuthStatus = ({ component: Component, pageProps }) => {
-  const { user, userLoading, updateUser } = useAuth();
+  const {
+    user, userLoading, updateUser,
+  } = useAuth();
 
-  // if user state is null, then show loader
   if (userLoading) {
     return <Loading />;
   }
@@ -23,9 +24,11 @@ const ViewDirectorBasedOnUserAuthStatus = ({ component: Component, pageProps }) 
       </>
     );
   }
-
-  // udpate this handle anonymous user
-  return <Signin />;
+  return (
+    <div className="container page-container">
+      <LoggedoutAllStories />
+    </div>
+  );
 };
 
 export default ViewDirectorBasedOnUserAuthStatus;

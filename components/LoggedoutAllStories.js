@@ -1,41 +1,45 @@
 /* eslint-disable @next/next/no-img-element */
-import React from 'react';
-// import LoggedoutAllStoryCard from './LoggedoutAllStoryCard';
-// import { useAuth } from '../utils/context/authContext';
-// import LoggedoutNavBar from './LoggedoutNavBar';
-// import { anonymouslySignIn, signIn } from '../utils/auth';
-// import { getAllPublicStories } from '../api';
+import React, { useEffect, useState, useRef } from 'react';
+import { useAuth } from '../auth/context/authContext';
+import LoggedoutNavBar from './LoggedoutNavBar';
+import LoggedoutAllStoryCard from './LoggedoutAllStoryCard';
+import { anonymouslySignIn, signIn } from '../auth/auth';
+import { getAllPublicPublishedStories } from '../api';
 
 function LoggedoutAllStories() {
-  // const { anonymousUser } = useAuth();
-  // const [stories, setStories] = useState([]);
-  // const [search, setSearch] = useState(undefined);
-  // const allStoriesRef = useRef(undefined);
+  const { anonymousUser } = useAuth();
+  const [stories, setStories] = useState([]);
+  const [search, setSearch] = useState(undefined);
+  const allStoriesRef = useRef(undefined);
 
-  // useEffect(() => {
-  //   anonymouslySignIn();
-  // }, []);
+  useEffect(() => {
+    anonymouslySignIn();
+  }, []);
 
-  // useEffect(() => {
-  //   if (anonymousUser) {
-  //     getAllPublicStories()
-  //       .then(setStories);
-  //   }
-  // }, [anonymousUser]);
+  useEffect(() => {
+    if (anonymousUser.isAnonymous) {
+      getAllPublicPublishedStories()
+        .then((storiesData) => {
+          if (storiesData && storiesData.length > 0) {
+            const filteredStoryData = storiesData.filter((story) => (story.journals.some((journal) => !journal.journalType.toLowerCase().includes('personal'))));
+            setStories(filteredStoryData);
+          }
+        });
+    }
+  }, [anonymousUser]);
 
-  // // takes care of rendering stories with & without search filter:
-  // const renderStories = () => ((stories && stories.length > 0)
-  //   ? stories.map((story) => {
-  //     if (search && story.title.toLowerCase().toLowerCase().includes(search.toLowerCase())) {
-  //       return (<LoggedoutAllStoryCard storyObj={story} key={story.firebaseKey} />);
-  //     }
-  //     if (!search) {
-  //       return (<LoggedoutAllStoryCard storyObj={story} key={story.firebaseKey} />);
-  //     }
-  //     return '';
-  //   }) : 'no public story');
+  const renderStories = () => ((stories && stories.length > 0)
+    ? stories.map((story) => {
+      if (search && story.title.toLowerCase().toLowerCase().includes(search.toLowerCase())) {
+        return (<LoggedoutAllStoryCard storyObj={story} key={story.id} />);
+      }
+      if (!search) {
+        return (<LoggedoutAllStoryCard storyObj={story} key={story.id} />);
+      }
+      return '';
+    }) : 'no public story');
 
-  // const setStoriesFocus = () => allStoriesRef?.current?.scrollIntoView();
+  const setStoriesFocus = () => allStoriesRef?.current?.scrollIntoView();
 
   return (
     <div
@@ -44,7 +48,7 @@ function LoggedoutAllStories() {
         flexDirection: 'column',
       }}
     >
-      {/* <LoggedoutNavBar getSearchTerm={setSearch} inSearchFocus={setStoriesFocus} />
+      <LoggedoutNavBar getSearchTerm={setSearch} inSearchFocus={setStoriesFocus} />
       <div
         style={{
           height: '100vh',
@@ -161,7 +165,7 @@ function LoggedoutAllStories() {
         id="loggedoutAllStories"
       >
         {renderStories()}
-      </div> */}
+      </div>
     </div>
   );
 }

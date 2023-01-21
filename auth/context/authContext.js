@@ -17,11 +17,7 @@ AuthContext.displayName = 'AuthContext'; // Context object accepts a displayName
 const AuthProvider = (props) => {
   const [user, setUser] = useState(null);
   const [oAuthUser, setOAuthUser] = useState(null);
-
-  // there are 3 states for the user:
-  // null = application initial state, not yet loaded
-  // false = user is not logged in, but the app has loaded
-  // an object/value = user is logged in
+  const [anonymousUser, setAnonymousUser] = useState(null);
 
   const updateUser = useMemo(
     () => (uid) => checkUser(uid).then((userInfo) => {
@@ -32,7 +28,7 @@ const AuthProvider = (props) => {
 
   useEffect(() => {
     firebase.auth().onAuthStateChanged((fbUser) => {
-      if (fbUser) {
+      if (fbUser && !fbUser.isAnonymous) {
         setOAuthUser(fbUser);
         checkUser(fbUser.uid).then((userInfo) => {
           let userObj = {};
@@ -43,23 +39,24 @@ const AuthProvider = (props) => {
           }
           setUser(userObj);
         });
-      } else {
-        setOAuthUser(false);
+      } else if (fbUser && fbUser.isAnonymous) {
         setUser(false);
+        setAnonymousUser(fbUser);
+      } else {
+        setUser(false);
+        setAnonymousUser(false);
       }
-    }); // creates a single global listener for auth state changed
+    });
   }, []);
 
   const value = useMemo(
-    // https://reactjs.org/docs/hooks-reference.html#usememo
     () => ({
       user,
       updateUser,
-      userLoading: user === null || oAuthUser === null,
-      // as long as user === null, will be true
-      // As soon as the user value !== null, value will be false
+      userLoading: (user === null || user === false) && (anonymousUser === null || anonymousUser === false),
+      anonymousUser,
     }),
-    [user, oAuthUser, updateUser],
+    [user, updateUser, anonymousUser],
   );
 
   return <AuthContext.Provider value={value} {...props} />;
