@@ -17,7 +17,7 @@ function LoggedoutAllStories() {
   }, []);
 
   useEffect(() => {
-    if (anonymousUser.isAnonymous) {
+    if (anonymousUser?.isAnonymous) {
       getAllPublicPublishedStories()
         .then((storiesData) => {
           if (storiesData && storiesData.length > 0) {
