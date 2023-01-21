@@ -53,7 +53,7 @@ const AuthProvider = (props) => {
     () => ({
       user,
       updateUser,
-      userLoading: (user === null || user === false) && (anonymousUser === null || anonymousUser === false),
+      userLoading: user === null,
       anonymousUser,
     }),
     [user, updateUser, anonymousUser],
