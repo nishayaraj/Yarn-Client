@@ -16,6 +16,7 @@ function JournalCard({ journalObj, onUpdate }) {
   const editJournal = () => router.push(`/my-journal/edit/${journalObj.id}`);
 
   const viewJournal = () => router.push(`/my-journal/${journalObj.id}`);
+  console.warn(journalObj.id);
 
   return (
     <div

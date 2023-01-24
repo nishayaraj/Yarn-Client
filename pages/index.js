@@ -5,8 +5,8 @@ import { useAuth } from '../auth/context/authContext';
 
 function Home() {
   const { user } = useAuth();
-  const [totalStories] = useState(0);
-  const [totalJournals] = useState(0);
+  // const [totalStories] = useState(0);
+  // const [totalJournals] = useState(0);
   const router = useRouter();
 
   const routeToNewJournalPage = () => router.push('/my-journal/new');
@@ -87,14 +87,14 @@ function Home() {
       >
         {greetings.hourGreetings}, {user.fbUser.displayName}
       </div>
-      <div
+      {/* <div
         style={{
           fontSize: '21px',
           marginTop: '12px',
         }}
       >
         You have {totalStories} {totalStories === 1 ? 'story' : 'stories' } & {totalJournals} {totalJournals <= 1 ? 'journal' : 'journals' }
-      </div>
+      </div> */}
       <div
         style={{
           margin: '32px 0px 50px',

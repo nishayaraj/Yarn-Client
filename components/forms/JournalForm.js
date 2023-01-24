@@ -38,7 +38,7 @@ function JournalForm({ journalDataObj }) {
         .then(() => router.push('/my-journal'));
     } else {
       const payload = { ...journalFormInput, userId: user.id };
-      createJournal(payload).then((journalId) => router.push(`/my-journal/${journalId}`));
+      createJournal(payload).then((journal) => router.push(`/my-journal/${journal.id}`));
     }
   };
 
